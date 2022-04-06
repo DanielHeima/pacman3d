@@ -1,4 +1,16 @@
 import { EntityManager } from "./src/entityManager.js";
+import { keys } from "./src/keys.js"
+
+window.onload = function init () {
+   // Meðhöndlun lykla
+   window.addEventListener("keydown", function (e) {
+    keys[e.keyCode] = true;
+  });
+
+  window.addEventListener("keyup", function (e) {
+    keys[e.keyCode] = false;
+  });
+}
 
 export const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
