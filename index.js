@@ -12,8 +12,14 @@ scene.add(sphere);
 
 camera.position.z = 30;
 
-function animate() {
-  requestAnimationFrame(animate);
+
+
+function update() {
+  // entityManager.update();
+}
+
+function render() {
+  requestAnimationFrame(render);
 
   sphere.rotation.x += 0.01;
   sphere.rotation.y += 0.02;
@@ -22,4 +28,4 @@ function animate() {
   renderer.render(scene, camera);
 };
 
-animate();
+render();
