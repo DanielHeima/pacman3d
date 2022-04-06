@@ -1,4 +1,4 @@
-import { scene } from "../index.js";
+import { scene, camera } from "../index.js";
 import { keys,
         KEY_W,
         KEY_A,
@@ -14,35 +14,49 @@ export class Pacman {
     this.sphere.matrixAutoUpdate = false;
     this.position = new THREE.Vector3(0,0,0);
     this.vel = 0.5;
+    this.direction = -1;
   }
   update() {
-    // this.sphere.rotation.x += 0.01;
-    // this.sphere.rotation.y += 0.02;
-    // this.sphere.rotation.z += 0.01;
     if (keys[KEY_W]) {
-      this.position["y"] += this.vel;
-      console.log(this.position);
-      this.sphere.position.copy(this.position);
-      this.sphere.updateMatrix();
+      this.direction = 0;
     }
     if (keys[KEY_A]) {
-      this.position["x"] -= this.vel;
-      console.log(this.position);
-      this.sphere.position.copy(this.position);
-      this.sphere.updateMatrix();
+      this.direction = 1;
     }
     if (keys[KEY_S]) {
-      this.position["y"] -= this.vel;
-      console.log(this.position);
-      this.sphere.position.copy(this.position);
-      this.sphere.updateMatrix();
+      this.direction = 2;
     }
     if (keys[KEY_D]) {
-      this.position["x"] += this.vel;
-      console.log(this.position);
-      this.sphere.position.copy(this.position);
-      this.sphere.updateMatrix();
+      this.direction = 3;
     }
-
+    let cpos = new THREE.Vector3(this.position["x"], this.position["y"], this.position["z"] + 30  );;
+    console.log(cpos)
+    console.log(this.position)
+    
+    switch(this.direction) {
+      case 0:
+        this.position["y"] += this.vel;
+        this.sphere.position.copy(this.position);
+        this.sphere.updateMatrix();
+        camera.position.copy(cpos); // finpussa
+        break;
+      case 2:
+        this.position["y"] -= this.vel;
+        this.sphere.position.copy(this.position);
+        this.sphere.updateMatrix();
+        break;
+      case 1:
+        this.position["x"] -= this.vel;
+        this.sphere.position.copy(this.position);
+        this.sphere.updateMatrix();
+        break;
+      case 3: 
+        this.position["x"] += this.vel;
+        this.sphere.position.copy(this.position);
+        this.sphere.updateMatrix();
+        break;
+      default:
+        break;      
+    }
   }
 }
