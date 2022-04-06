@@ -1,14 +1,24 @@
-class EntityManager {
+import { Pacman } from "./pacman.js";
+
+let noGhosts = 4;
+
+export class EntityManager {
+  ghosts = [];
+  foods = [];
   constructor() {
+    this.pacman = new Pacman();
 
   }
 
   update() {
-    // for all entities; do entity.update()
-  }
-  render() {
-    // for all entities; do entity.render()
+    this.pacman.update();
+ 
+    for (food of this.foods) {
+      food.update();
+    }
+
+    for (ghost of this.ghosts) {
+      ghost.update();
+    }
   }
 }
-
-export const entityManager = new EntityManager();
