@@ -1,6 +1,6 @@
 import { EntityManager } from "./src/entityManager.js";
 
-const scene = new THREE.Scene();
+export const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 const renderer = new THREE.WebGLRenderer();
@@ -10,6 +10,7 @@ document.body.appendChild(renderer.domElement);
 const entityManager = new EntityManager();
 
 scene.add(entityManager.pacman.sphere);
+// entityManager.kill(entityManager.pacman.sphere);
 
 camera.position.z = 30;
 
