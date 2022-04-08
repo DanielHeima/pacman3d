@@ -32,10 +32,10 @@ const entityManager = new EntityManager();
 const dummyfloorGeometry = new THREE.PlaneGeometry( 800, 1000 );
 const dummyMat = new THREE.MeshPhongMaterial({ color: "grey"});
 const dummyFloor = new THREE.Mesh(dummyfloorGeometry, dummyMat)
-
+dummyFloor.position.z = -10;
 scene.add(dummyFloor);
 
-scene.add(entityManager.pacman.sphere);
+
 // entityManager.kill(entityManager.pacman.sphere);
 
 camera.position.z = 30;

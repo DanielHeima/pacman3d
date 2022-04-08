@@ -8,13 +8,13 @@ import { keys,
 
 export class Pacman {
   constructor() {
-    this.geometry = new THREE.SphereGeometry(10, 100, 100);
+    this.geometry = new THREE.SphereGeometry(10, 100, 100, 0, 5.5);
     this.material = new THREE.MeshPhongMaterial({ color: "yellow", specular: "#111111", shininess: 30, combine: THREE.MultiplyOperation, reflectivity: 0.6 });
-    this.sphere = new THREE.Mesh(this.geometry, this.material);
-    this.sphere.matrixAutoUpdate = false;
-    this.position = new THREE.Vector3(0,0,0);
+    this.pacShape = new THREE.Mesh(this.geometry, this.material);
+    this.pacShape.matrixAutoUpdate = false;
     this.vel = 0.5;
     this.direction = -1; // default stop
+    this.position = new THREE.Vector3(0, 0, 0);
   }
   update() {
     if (keys[KEY_W]) {
@@ -29,32 +29,32 @@ export class Pacman {
     if (keys[KEY_D]) {
       this.direction = 3;
     }
-    let cpos = new THREE.Vector3(this.position["x"]-10, this.position["y"]-10, this.position["z"] + 30  );;
-    console.log(cpos)
-    console.log(this.position)
+    let cpos = new THREE.Vector3(this.position["x"]-10, this.position["y"]-10, this.position["z"] + 30  );
+    // console.log(cpos)
+    // console.log(this.position)
     
     switch(this.direction) {
       case 0:
         this.position["y"] += this.vel;
-        this.sphere.position.copy(this.position);
-        this.sphere.updateMatrix();
-        camera.position.copy(cpos); // finpussa
+        this.pacShape.position.copy(this.position);
+        this.pacShape.updateMatrix();
+        // camera.position.copy(cpos); // finpussa
         break;
       case 2:
         this.position["y"] -= this.vel;
-        this.sphere.position.copy(this.position);
-        this.sphere.updateMatrix();
+        this.pacShape.position.copy(this.position);
+        this.pacShape.updateMatrix();
         camera.position.copy(cpos); // finpussa, gera lika vid 1 og 3
         break;
       case 1:
         this.position["x"] -= this.vel;
-        this.sphere.position.copy(this.position);
-        this.sphere.updateMatrix();
+        this.pacShape.position.copy(this.position);
+        this.pacShape.updateMatrix();
         break;
       case 3: 
         this.position["x"] += this.vel;
-        this.sphere.position.copy(this.position);
-        this.sphere.updateMatrix();
+        this.pacShape.position.copy(this.position);
+        this.pacShape.updateMatrix();
         break;
       default:
         break;      
