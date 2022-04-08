@@ -27,8 +27,13 @@ export class Food {
   }
   collide () {
     if (spatialManager.areSpheresColliding(this, entityManager.pacman)) {
-      console.log("food coll");
-      score+=1;
+      if (this.special) {
+        // pacman found that special sauce
+        entityManager.pacman.killModeActivate();
+        score += 10;
+      } else {
+        score+=1; 
+      }
       document.querySelector(".score").innerHTML = `Score: ${score}` ;
       entityManager.killFood(this);
     }

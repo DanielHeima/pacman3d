@@ -4,6 +4,8 @@ import { spatialManager, entityManager } from "../index.js";
 export class Ghost {
   constructor(x = 100, y = 10, color = "red") {
     this.c = color;
+    this.panicColor = "blue";
+    this.panic = false;
     this.radius = 10;
     this.geometry = new THREE.CapsuleGeometry(this.radius, 15, 16, 32); // cons: radius, length, capSegs, heightSegs
     this.material = new THREE.MeshPhongMaterial({ color: this.c, specular: "#111111", emissive: "#404040", shininess: 30, combine: THREE.MultiplyOperation, reflectivity: 0.6 });
@@ -19,7 +21,13 @@ export class Ghost {
   }
 
   update() {
+    if (entityManager.pacman.modeKiller) {
+      //... ekki vera ad scanna amk.. kannski reyna ad fordast pacman
+    } else {
+      // this.scan();mby reyna ad fara i attina ad pacman...
+    }
     this.collide();
+ 
     switch(this.direction) {
       case 0:
         this.position["y"] += this.vel;
@@ -49,5 +57,14 @@ export class Ghost {
     if (spatialManager.areSpheresColliding(this, entityManager.pacman)) {
       console.log("collision");
     }
+  }
+  panik () {
+    this.panic = true;
+    this.shape.material.color.set(this.panicColor);
+  }
+
+  kalm () {
+    this.panic = false;
+    this.shape.material.color.set(this.c);
   }
 }

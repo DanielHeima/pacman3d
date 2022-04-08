@@ -29,15 +29,16 @@ export class EntityManager {
     }
 
     // make food
-
     // dummy forloop, nota gagnagrind fra odur
     let noFood = 10;
     for (let i = 0 ; i < noFood; i+=1) {
-      let food = new Food(Math.floor(Math.random()*300), Math.floor(Math.random() * 300), false);
+      let special = Math.random() < 0.1 ? true : false;
+      let x = Math.floor(Math.random() * 300);
+      let y = Math.floor(Math.random() * 300);
+      let food = new Food(x, y, special);
       scene.add(food.shape);
       this.foods.push(food);
     }
-
   }
 
   update() {

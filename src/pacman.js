@@ -1,4 +1,4 @@
-import { scene, camera } from "../index.js";
+import { scene, camera, entityManager } from "../index.js";
 import { keys,
         KEY_W,
         KEY_A,
@@ -6,8 +6,13 @@ import { keys,
         KEY_D,
        } from "./keys.js"
 
+const killerModeDuration = 10; // seconds
 export class Pacman {
   constructor() {
+    this.countdownTimers = [];
+    this.modeKiller = false;
+    this.origX = 0;
+    this.origY = 0;
     this.radius = 10;
     this.geometry = new THREE.SphereGeometry(this.radius, 100, 100, 0, 5.5);
     this.material = new THREE.MeshPhongMaterial({ color: "yellow", specular: "#111111", shininess: 30, combine: THREE.MultiplyOperation, reflectivity: 0.6 });
@@ -15,9 +20,10 @@ export class Pacman {
     this.shape.matrixAutoUpdate = false;
     this.vel = 0.5;
     this.direction = -1; // default stop
-    this.position = new THREE.Vector3(0, 0, 0);
+    this.position = new THREE.Vector3(this.origX, this.orygY, 0);
   }
   update() {
+    console.log(this.modeKiller)
     if (keys[KEY_W]) {
       this.direction = 0;
     }
@@ -61,6 +67,23 @@ export class Pacman {
         break;      
     }
     camera.lookAt(this.position);
+  }
+  killModeActivate() {
+    this.modeKiller = true;
+    for (let ghost of entityManager.ghosts) {
+      ghost.panik();
+    }
+    // cancelum gomlum timers
+    for (let timeout of this.countdownTimers) {
+      clearTimeout(timeout);
+    }
+    // geyma timer til ad geta cancelad ef vid finnum annan special boi
+    this.countdownTimers.push(setTimeout(() => {
+      this.modeKiller = false;
+      for (let ghost of entityManager.ghosts) {
+        ghost.kalm();
+      }
 
+    }, 1000 * killerModeDuration));
   }
 }
