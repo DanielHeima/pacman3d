@@ -1,5 +1,5 @@
 
-import { scene, camera } from "../index.js";
+import { spatialManager, entityManager } from "../index.js";
 
 export class Ghost {
   constructor(x = 100, y = 10, color = "red") {
@@ -19,6 +19,7 @@ export class Ghost {
   }
 
   update() {
+    this.collide();
     switch(this.direction) {
       case 0:
         this.position["y"] += this.vel;
@@ -42,6 +43,11 @@ export class Ghost {
         break;
       default:
         break;      
+    }
+  }
+  collide () {
+    if (spatialManager.areSpheresColliding(this, entityManager.pacman)) {
+      console.log("collision");
     }
   }
 }

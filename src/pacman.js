@@ -8,7 +8,8 @@ import { keys,
 
 export class Pacman {
   constructor() {
-    this.geometry = new THREE.SphereGeometry(10, 100, 100, 0, 5.5);
+    this.radius = 10;
+    this.geometry = new THREE.SphereGeometry(this.radius, 100, 100, 0, 5.5);
     this.material = new THREE.MeshPhongMaterial({ color: "yellow", specular: "#111111", shininess: 30, combine: THREE.MultiplyOperation, reflectivity: 0.6 });
     this.pacShape = new THREE.Mesh(this.geometry, this.material);
     this.pacShape.matrixAutoUpdate = false;

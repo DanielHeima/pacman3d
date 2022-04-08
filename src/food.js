@@ -1,3 +1,5 @@
+import { scene, spatialManager, entityManager } from "../index.js";
+
 export class Food {
   constructor(x = 0, y = 0, special = false) {
     this.special = special;
@@ -17,7 +19,13 @@ export class Food {
     this.hover = (this.hover + 0.05) % (Math.PI * 2);
     this.z = 5 + 5 * Math.sin(this.hover);
     this.position["z"] = this.z;
-    console.log(this.position);
     this.shape.position.copy(this.position);
+
+    this.collide();
+  }
+  collide () {
+    if (spatialManager.areSpheresColliding(this, entityManager.pacman)) {
+      console.log("collision");
+    }
   }
 }

@@ -1,5 +1,6 @@
 import { EntityManager } from "./src/entityManager.js";
 import { keys } from "./src/keys.js"
+import { SpatialManager } from "./src/spatialManager.js";
 
 window.onload = function init () {
    // Meðhöndlun lykla
@@ -26,7 +27,9 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const entityManager = new EntityManager();
+export const entityManager = new EntityManager(); //singleton
+export const spatialManager = new SpatialManager(); // singleton
+
 
 // dummy floor
 const dummyfloorGeometry = new THREE.PlaneGeometry( 800, 1000 );
