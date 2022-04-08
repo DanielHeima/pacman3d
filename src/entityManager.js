@@ -1,6 +1,7 @@
 import { Pacman } from "./pacman.js";
 import { scene } from "../index.js"
 import { Ghost } from "./ghost.js";
+import { Food } from "./food.js";
 
 let noGhosts = 4;
 
@@ -28,6 +29,9 @@ export class EntityManager {
     }
 
     // make food
+    let food = new Food(10, 10, false);
+    scene.add(food.shape);
+    this.foods.push(food);
   }
 
   update() {
