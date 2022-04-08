@@ -17,21 +17,27 @@ export class EntityManager {
   constructor() {
     // make mr man
     this.pacman = new Pacman();
-    scene.add(this.pacman.pacShape);
+    scene.add(this.pacman.shape);
 
     // make ghosts
     for (let i = 0; i < noGhosts; i +=1) {
       let x = Math.floor(Math.random() * 200) +50;
       let y = Math.floor(Math.random() * 100);
       let ghost = new Ghost(x, y, this.colors[i % this.colors.length]);
-      scene.add(ghost.ghostShape);
+      scene.add(ghost.shape);
       this.ghosts.push(ghost);
     }
 
     // make food
-    let food = new Food(10, 10, false);
-    scene.add(food.shape);
-    this.foods.push(food);
+
+    // dummy forloop, nota gagnagrind fra odur
+    let noFood = 10;
+    for (let i = 0 ; i < noFood; i+=1) {
+      let food = new Food(Math.floor(Math.random()*300), Math.floor(Math.random() * 300), false);
+      scene.add(food.shape);
+      this.foods.push(food);
+    }
+
   }
 
   update() {
@@ -46,7 +52,9 @@ export class EntityManager {
     }
   }
 
-  kill(obj) {
-    scene.remove(obj);
+  killFood(obj) {
+    obj.setPosition(new THREE.Vector3(1000, 1000, -200));
+    scene.remove(obj.shape);
   }
+  
 }

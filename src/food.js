@@ -1,5 +1,7 @@
 import { scene, spatialManager, entityManager } from "../index.js";
 
+let score = 0;
+
 export class Food {
   constructor(x = 0, y = 0, special = false) {
     this.special = special;
@@ -25,7 +27,14 @@ export class Food {
   }
   collide () {
     if (spatialManager.areSpheresColliding(this, entityManager.pacman)) {
-      console.log("collision");
+      console.log("food coll");
+      score+=1;
+      document.querySelector(".score").innerHTML = `Score: ${score}` ;
+      entityManager.killFood(this);
     }
+  }
+  setPosition(pos){
+    this.shape.position.copy(pos);
+    this.position = pos;
   }
 }
