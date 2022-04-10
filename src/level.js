@@ -62,20 +62,20 @@ export class Level {
               this.baseLength,
               this.baseLength * 2
             );
-            newWall.shape.position.x = i * this.baseLength; //hmm oo hell
-            newWall.shape.position.y = j * this.baseLength; // hmmm
+            newWall.shape.position.x = j * this.baseLength; //hmm oo hell
+            newWall.shape.position.y = i * this.baseLength; // hmmm
             this.walls.push(newWall);
             break;
           case 1:
             // food spawn
-            let xfoodCoord = i * this.baseLength;
-            let yfoodCoord = j * this.baseLength;
+            let xfoodCoord = j * this.baseLength;
+            let yfoodCoord = i * this.baseLength;
             let foodCoord = [xfoodCoord, yfoodCoord];
             this.foodsCoord.push(foodCoord);
             break;
           case 3:
-            let xGhostCoord = i * this.baseLength;
-            let yGhostCoord = j * this.baseLength;
+            let xGhostCoord = j * this.baseLength;
+            let yGhostCoord = i * this.baseLength;
             let ghostCoord = [xGhostCoord, yGhostCoord];
             this.ghostSpawnCoord.push(ghostCoord);
             break;
@@ -83,8 +83,8 @@ export class Level {
             // teleport
             break;
           case 9:
-            let xPacmanCoord = i * this.baseLength;
-            let yPacmanCoord = j * this.baseLength;
+            let xPacmanCoord = j * this.baseLength;
+            let yPacmanCoord = i * this.baseLength;
             let pacmanCoord = [xPacmanCoord, yPacmanCoord];
             this.pacmanSpawnCoord.push(pacmanCoord);
             break;
