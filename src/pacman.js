@@ -1,12 +1,9 @@
-import { ThirdPersonCamera } from "./camera.js";
 import {
-  scene,
-  camera,
   entityManager,
   spatialManager,
   cameraTP,
 } from "../index.js";
-import { keys, KEY_W, KEY_A, KEY_S, KEY_D } from "./keys.js";
+import { keys, KEY_W, KEY_A, KEY_S, KEY_D, KEY_I, KEY_P } from "./keys.js";
 
 const killerModeDuration = 10; // seconds
 export class Pacman {
@@ -34,8 +31,8 @@ export class Pacman {
     this.position = new THREE.Vector3(this.origX, this.origY, 0);
     this.originalPosition = this.position;
     this.shape.position.copy(this.position);
-    this.defaultVel = 2.1;
-    this.killModeVel = 3;
+    this.defaultVel = 1.5;
+    this.killModeVel = 2;
     this.vel = this.defaultVel; // pacmans velocity
     this.velX = 0; // default stop
     this.velY = 0; // default stop
@@ -79,6 +76,13 @@ export class Pacman {
         (-1 * Math.PI) / 2
       );
     }
+    if (eatKey(KEY_I)) { // i pressed
+      
+    }
+    if (eatKey(KEY_P)) { // p pressed
+      
+    }
+    
 
     this.updateVelFromDirection();
 
@@ -157,6 +161,7 @@ export class Pacman {
 
   killModeActivate() {
     this.modeKiller = true;
+    this.updateText();
     this.updateVel();
     for (let ghost of entityManager.ghosts) {
       ghost.panik();
@@ -169,6 +174,7 @@ export class Pacman {
     this.countdownTimers.push(
       setTimeout(() => {
         this.modeKiller = false;
+        this.updateText();
         this.vel = this.defaultVel;
         this.updateVel();
 
@@ -193,6 +199,7 @@ export class Pacman {
 
   die() {
     if (this.cooldown) return;
+    this.direction = -1;
     this.cooldown = true;
     this.shape.material.color.set(this.cooldownColor);
     this.countdownTimers.push(
@@ -204,8 +211,10 @@ export class Pacman {
 
     this.lives -= 1;
     if (this.lives < 0) {
-      //   entityManager.lose();
+      entityManager.lose();
+      return;
     }
+    this.updateText();
     this.resetPosition();
   }
 
@@ -214,6 +223,14 @@ export class Pacman {
     this.position["y"] = this.origY;
     this.shape.position.copy(this.position);
     this.shape.updateMatrix();
+  }
+
+  updateText() {
+    document.querySelector(".lives").innerHTML = `Lives left: ${this.lives}` ;
+    if (this.modeKiller) {
+     document.querySelector(".lives").innerHTML = `Killmode Activated` ;
+    }
+
   }
 }
 
