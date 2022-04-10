@@ -1,9 +1,14 @@
+import { entityManager, spatialManager, cameraTP } from "../index.js";
 import {
-  entityManager,
-  spatialManager,
-  cameraTP,
-} from "../index.js";
-import { keys, KEY_W, KEY_A, KEY_S, KEY_D, KEY_I, KEY_P, KEY_L } from "./keys.js";
+  keys,
+  KEY_W,
+  KEY_A,
+  KEY_S,
+  KEY_D,
+  KEY_I,
+  KEY_P,
+  KEY_L,
+} from "./keys.js";
 
 const killerModeDuration = 10; // seconds
 export class Pacman {
@@ -81,10 +86,10 @@ export class Pacman {
     if (eatKey(KEY_P)) {
       cameraTP.setOffset(-20, 0, 30);
     }
-    if (eatKey(KEY_L)) { // l pressed
-      console.log("p");
+    if (eatKey(KEY_L)) {
+      // l pressed
+      cameraTP.setOffset(-100, 0, 300);
     }
-    
 
     this.updateVelFromDirection();
 
