@@ -77,10 +77,10 @@ export class Pacman {
       );
     }
     if (eatKey(KEY_I)) { // i pressed
-      
+      console.log("i");
     }
     if (eatKey(KEY_P)) { // p pressed
-      
+      console.log("p");
     }
     
 
@@ -96,8 +96,8 @@ export class Pacman {
     this.shape.position.copy(this.position);
     this.shape.updateMatrix();
 
-    console.log(cameraTP._target.quaternion);
-    console.log(this.shape.quaternion);
+    // console.log(cameraTP._target.quaternion);
+    // console.log(this.shape.quaternion);
 
     cameraTP.update();
   }
