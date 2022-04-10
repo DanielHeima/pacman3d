@@ -23,6 +23,8 @@ export class EntityManager {
     // make mr man
     this.pacman = new Pacman(pacCoord[0]);
     scene.add(this.pacman.shape);
+    //scene.add(this.pacman.leftEye);
+    //scene.add(this.pacman.rightEye);
 
     // make ghosts
     for (let i = 0; i < noGhosts; i += 1) {
@@ -72,15 +74,16 @@ export class EntityManager {
     }
   }
 
-  win () {
+  win() {
     this.gameOver = true;
     // msg: You won! Reload to play again.
     document.querySelector(".msg").innerHTML = "You won! Reload to play again.";
   }
-  lose () {
+  lose() {
     this.gameOver = true;
     // msg: You lose. Reload to play again.
-    document.querySelector(".msg").innerHTML = "You lose. Reload to play again.";
+    document.querySelector(".msg").innerHTML =
+      "You lose. Reload to play again.";
   }
 
   eatFood(obj) {

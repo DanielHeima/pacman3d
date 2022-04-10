@@ -23,8 +23,9 @@ export class Pacman {
     this.radius = 9;
     this.defaultColor = "yellow";
     this.cooldownColor = "pink";
-    // this.geometry = new THREE.SphereGeometry(this.radius, 100, 100, 0, 5.5);
-    this.geometry = new THREE.SphereGeometry(this.radius, 100, 100);
+    this.geometry = new THREE.SphereGeometry(this.radius, 100, 100, 0, 5.5);
+    //munnur framm
+    this.geometry.rotateY(Math.PI);
     this.material = new THREE.MeshPhongMaterial({
       color: this.defaultColor,
       specular: "#111111",
@@ -33,9 +34,31 @@ export class Pacman {
       reflectivity: 0.6,
     });
     this.shape = new THREE.Mesh(this.geometry, this.material);
+    //eyes
+    //this.eyeGeometry = new THREE.SphereGeometry(this.radius / 3, 100, 100);
+    //this.eyeMaterial = new THREE.MeshPhongMaterial({ color: "black" });
+    //this.leftEye = new THREE.Mesh(this.eyeGeometry, this.eyeMaterial);
+    //this.rightEye = new THREE.Mesh(this.eyeGeometry, this.eyeMaterial);
+    //this.translateL = new THREE.Vector3();
+    //this.translateL = this.translateL.setFromSpherical(
+    //  new THREE.Spherical(this.radius, -Math.PI / 4, Math.PI / 4)
+    //);
+    //this.translateR = new THREE.Vector3();
+    //this.translateR = this.translateL.setFromSpherical(
+    //  new THREE.Spherical(this.radius, -Math.PI / 4, Math.PI / 4)
+    //);
     // this.direction = -1; // default stop
     this.position = new THREE.Vector3(this.origX, this.origY, 0);
+    //this.leftEyePos = this.position.clone();
+    //this.rightEyePos = this.position.clone();
+    //this.leftEyePos.add(this.translateL);
+    //this.rightEye.add(this.translateR);
+
     this.originalPosition = this.position;
+
+    //this.leftEye.position.copy(this.leftEyePos);
+    //this.rightEye.position.copy(this.rightEyePos);
+
     this.shape.position.copy(this.position);
     this.defaultVel = 1.5;
     this.killModeVel = 2;
