@@ -16,7 +16,7 @@ export class Pacman {
     this.modeKiller = false;
     this.origX = pos[0];
     this.origY = pos[1];
-    this.radius = 10;
+    this.radius = 9;
     this.geometry = new THREE.SphereGeometry(this.radius, 100, 100, 0, 5.5);
     this.material = new THREE.MeshPhongMaterial({ color: "yellow", specular: "#111111", shininess: 30, combine: THREE.MultiplyOperation, reflectivity: 0.6 });
     this.shape = new THREE.Mesh(this.geometry, this.material);
@@ -59,8 +59,8 @@ export class Pacman {
     this.shape.updateMatrix();
     
     // dummy camera
-    // camera.position.copy(cpos);
-    // camera.lookAt(this.position);
+    camera.position.copy(cpos);
+    camera.lookAt(this.position);
   }
 
   collide() {

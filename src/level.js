@@ -61,7 +61,7 @@ export class Level {
             let newWall = new Wall(
               this.baseLength,
               this.baseLength,
-              this.baseLength * 2,
+              this.baseLength * 0.5,
               j * this.baseLength,
               i * this.baseLength
             );

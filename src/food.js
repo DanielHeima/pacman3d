@@ -1,4 +1,4 @@
-import { scene, spatialManager, entityManager } from "../index.js";
+import { spatialManager, entityManager } from "../index.js";
 
 let score = 0;
 
@@ -30,12 +30,12 @@ export class Food {
       if (this.special) {
         // pacman found that special sauce
         entityManager.pacman.killModeActivate();
-        score += 10;
+        score += 50;
       } else {
-        score+=1; 
+        score+=10; 
       }
       document.querySelector(".score").innerHTML = `Score: ${score}` ;
-      entityManager.killFood(this);
+      entityManager.eatFood(this);
     }
   }
   setPosition(pos){

@@ -46,7 +46,7 @@ export class SpatialManager {
     let nextY = entity.nextY;
 
     // dims and nextDims (left, right, up, down)
-    let rad = entity.radius;
+    let rad = entity.radius; 
     const leftXent = x - rad;
     const rightXent = x + rad;
     const upYent = y + rad;
@@ -74,12 +74,10 @@ export class SpatialManager {
     if (leftXwall <= nextleftXent && nextleftXent <= rightXwall || leftXwall <= nextrightXent && nextrightXent <= rightXwall) {
       // down to up
       if (upYent < downYwall && nextupYent >= downYwall) {
-        console.log("down to up");
         return 1;
       }
       // up to down;
       if (downYent > upYwall && nextdownYent <= upYwall) {
-        console.log("up to down");
         return 1;
       }
     }

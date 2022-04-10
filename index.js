@@ -7,11 +7,14 @@ window.onload = function init() {
   // Meðhöndlun lykla
   window.addEventListener("keydown", function (e) {
     keys[e.keyCode] = true;
+    entityManager.gameOver = false;
   });
 
   window.addEventListener("keyup", function (e) {
     keys[e.keyCode] = false;
   });
+
+
 };
 
 const renderer = new THREE.WebGLRenderer();
@@ -61,7 +64,9 @@ camera.position.x = 500;
 function render() {
   requestAnimationFrame(render);
   entityManager.update();
-  renderer.render(scene, camera);
+  if (!entityManager.gameOver) {
+    renderer.render(scene, camera);
+  }
 }
 
 render();

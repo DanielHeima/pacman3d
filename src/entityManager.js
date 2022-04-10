@@ -12,6 +12,9 @@ export class EntityManager {
   foods = [];
   colors = ["red", "cyan", "pink", "orange"];
   ghostSpwnIdx = [9, 12, 15, 18];
+  noFoods = 246;
+  noFoodEaten = 0;
+  gameOver = false;
   constructor() {
     this.level = new Level();
     const ghostCoord = this.level.ghostSpawnCoord;
@@ -64,7 +67,6 @@ export class EntityManager {
     let food = new Food(x, y, special);
     scene.add(food.shape);
     this.foods.push(food);
-    console.log(this.foods.length);
   }
 
   update() {
@@ -77,10 +79,17 @@ export class EntityManager {
     for (let ghost of this.ghosts) {
       ghost.update();
     }
+
+    if (this.noFoodEaten >= this.noFoods) {
+      this.win();
+    }
   }
 
-  killFood(obj) {
+
+
+  eatFood(obj) {
     obj.setPosition(new THREE.Vector3(1000, 1000, -200));
     scene.remove(obj.shape);
+    this.noFoodEaten += 1;
   }
 }
