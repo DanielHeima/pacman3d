@@ -74,11 +74,13 @@ export class EntityManager {
 
   win () {
     this.gameOver = true;
-    // msg: You won! Press any key to play again.
+    // msg: You won! Reload to play again.
+    document.querySelector(".msg").innerHTML = "You won! Reload to play again.";
   }
   lose () {
     this.gameOver = true;
-    // msg: You lose. Press any key to play again.
+    // msg: You lose. Reload to play again.
+    document.querySelector(".msg").innerHTML = "You lose. Reload to play again.";
   }
 
   eatFood(obj) {

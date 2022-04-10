@@ -6,10 +6,11 @@ export class ThirdPersonCamera {
 
     this._currentPosition = new THREE.Vector3();
     this._currentLookat = new THREE.Vector3();
+    this.offset = new THREE.Vector3(-20, 0, 30);
   }
 
   calculateIdealOffset() {
-    const idealOffset = new THREE.Vector3(-20, 0, 30);
+    const idealOffset = this.offset.clone();
     idealOffset.applyQuaternion(this._target.quaternion);
     idealOffset.add(this._target.position);
     return idealOffset;
@@ -20,6 +21,11 @@ export class ThirdPersonCamera {
     idealLookat.applyQuaternion(this._target.quaternion);
     idealLookat.add(this._target.position);
     return idealLookat;
+  }
+
+  setOffset(x, y, z) {
+    const newOffset = new THREE.Vector3(x, y, z);
+    this.offset = newOffset.clone();
   }
 
   update() {

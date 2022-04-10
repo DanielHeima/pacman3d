@@ -10,7 +10,7 @@ export class Ghost {
     this.geometry = new THREE.CapsuleGeometry(this.radius, 15, 16, 32); // cons: radius, length, capSegs, heightSegs
     this.material = new THREE.MeshPhongMaterial({ color: this.c, specular: "#111111", emissive: "#404040", shininess: 30, combine: THREE.MultiplyOperation, reflectivity: 0.6 });
     this.shape = new THREE.Mesh(this.geometry, this.material);
-    this.vel = 2;
+    this.vel = 1.4;
     this.velX;
     this.velY;
     this.out = false;
