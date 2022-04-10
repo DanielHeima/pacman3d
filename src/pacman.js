@@ -66,7 +66,7 @@ export class Pacman {
       default:
         break;      
     }
-    camera.lookAt(this.position);
+    //camera.lookAt(this.position);
   }
   killModeActivate() {
     this.modeKiller = true;

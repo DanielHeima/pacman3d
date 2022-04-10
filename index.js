@@ -1,10 +1,7 @@
 import { EntityManager } from "./src/entityManager.js";
 import { keys } from "./src/keys.js"
-<<<<<<< HEAD
 import { Level } from "./src/level.js";
-=======
 import { SpatialManager } from "./src/spatialManager.js";
->>>>>>> 311bb60b42c703eb4d0abcb05e25c63717cce7dc
 
 window.onload = function init () {
    // Meðhöndlun lykla
@@ -56,8 +53,9 @@ scene.background = skyTex;
 
 //todo window resize
 
-<<<<<<< HEAD
-const entityManager = new EntityManager();
+export const entityManager = new EntityManager(); //singleton
+export const spatialManager = new SpatialManager(); // singleton
+
 const level = new Level()
 
 
@@ -69,36 +67,9 @@ testWalls.forEach( item => {
   scene.add(item.wall);
 });
 
-//scene.add(level.floor.floor);
-
-// dummy floor
-//const dummyfloorGeometry = new THREE.PlaneGeometry( 800, 1000 );
-//const dummyMat = new THREE.MeshPhongMaterial({ color: "grey"});
-//const dummyFloor = new THREE.Mesh(dummyfloorGeometry, dummyMat)
-//
-//scene.add(dummyFloor);
-
-//scene.add(level.floor);
-
-scene.add(entityManager.pacman.sphere);
 
 
-//scene.add(entityManager.plane.floor);
-//scene.add(entityManager.wall.wall);
-=======
-export const entityManager = new EntityManager(); //singleton
-export const spatialManager = new SpatialManager(); // singleton
 
-
-// dummy floor
-const dummyfloorGeometry = new THREE.PlaneGeometry( 800, 1000 );
-const dummyMat = new THREE.MeshPhongMaterial({ color: "grey"});
-const dummyFloor = new THREE.Mesh(dummyfloorGeometry, dummyMat)
-dummyFloor.position.z = -10;
-scene.add(dummyFloor);
-
-
->>>>>>> 311bb60b42c703eb4d0abcb05e25c63717cce7dc
 // entityManager.kill(entityManager.pacman.sphere);
 
 camera.position.z = 1000;
