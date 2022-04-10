@@ -1,8 +1,9 @@
 import { Pacman } from "./pacman.js";
-import { scene } from "../index.js";
+import { scene, level } from "../index.js"
 import { Ghost } from "./ghost.js";
 import { Food } from "./food.js";
 import { Level } from "./level.js";
+
 
 let noGhosts = 4;
 
@@ -16,9 +17,9 @@ export class EntityManager {
     scene.add(this.pacman.shape);
 
     // make ghosts
-    for (let i = 0; i < noGhosts; i += 1) {
-      let x = Math.floor(Math.random() * 200) + 50;
-      let y = Math.floor(Math.random() * 100);
+    for (let i = 0; i < noGhosts; i +=1) {
+      let x = level.middle + Math.floor(Math.random() * 40);
+      let y = level.middle + Math.floor(Math.random() * 40);
       let ghost = new Ghost(x, y, this.colors[i % this.colors.length]);
       scene.add(ghost.shape);
       this.ghosts.push(ghost);

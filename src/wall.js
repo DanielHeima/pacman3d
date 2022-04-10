@@ -11,4 +11,8 @@ export class Wall {
     this.shape.position.z = posZ;
   }
 
+  getPos() {
+    return this.shape.position;
+  }
+
 }
