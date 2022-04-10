@@ -39,47 +39,52 @@ export class SpatialManager {
 
   isSphereWallCollision(entity, wall) {
     const { leftXwall, rightXwall, upYwall, downYwall } = wall.getDims();
-    
     // position and nextPosition
     let x = entity.position.x;
     let y = entity.position.y;
     let nextX = entity.nextX;
     let nextY = entity.nextY;
-    this.time+=1;
-    
 
-    // dims and nextDims
-    const leftXent = x - entity.radius;
-    const rightXent = x + entity.radius;
-    const upYent = y + entity.radius;
-    const downYent = y - entity.radius;
-    const nextleftXent = nextX - entity.radius;
-    const nextrightXent = nextX + entity.radius;
-    const nextupYent = nextY + entity.radius;
-    const nextdownYent = nextY - entity.radius;
+    // dims and nextDims (left, right, up, down)
+    let rad = entity.radius;
+    const leftXent = x - rad;
+    const rightXent = x + rad;
+    const upYent = y + rad;
+    const downYent = y - rad;
+    const nextleftXent = nextX - rad;
+    const nextrightXent = nextX + rad;
+    const nextupYent = nextY + rad;
+    const nextdownYent = nextY - rad;
 
-    if (this.time % 10000 == 0) {
-      console.log(downYwall, upYwall);
-    }
-  
-    // nextY á milli downYwall og upYwall
-    if (downYwall < nextY && nextY < upYwall) {
-      // console.log("nextY a milli downYwall og upYwall")
+    // x coll:
+    // önnur Y brúnin mun vera á milli downYwall og upYwall
+    if (downYwall <= nextupYent && nextupYent <= upYwall || downYwall <= nextdownYent && nextdownYent <= upYwall ) {
       // left to right
-      // && right vinstra megin vid leftXwall en nextright hægra megin
-      if (rightXent < leftXwall && nextrightXent > leftXwall) {
-        console.log("left to right");
+      if (rightXent < leftXwall && nextrightXent >= leftXwall) {
         return 0;
       }      
       // right to left
+      if (leftXent > rightXwall && nextleftXent <= rightXwall) {
+        return 0;
+      }
     }
 
+    // y coll:
+    // önnur X brúnin mun vera a milli leftXwall og rightXwall
+    if (leftXwall <= nextleftXent && nextleftXent <= rightXwall || leftXwall <= nextrightXent && nextrightXent <= rightXwall) {
+      // down to up
+      if (upYent < downYwall && nextupYent >= downYwall) {
+        console.log("down to up");
+        return 1;
+      }
+      // up to down;
+      if (downYent > upYwall && nextdownYent <= upYwall) {
+        console.log("up to down");
+        return 1;
+      }
+    }
 
-    // down to up
-
-    // up to down;
-    
-    
+    // no collision
     return -1;
   }
 }

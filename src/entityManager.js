@@ -46,10 +46,11 @@ export class EntityManager {
   }
 
   addFood(x, y) {
-    let special = Math.random() < 0.1 ? true : false;
+    let special = Math.random() < 0.05 ? true : false;
     let food = new Food(x, y, special);
     scene.add(food.shape);
     this.foods.push(food);
+    console.log(this.foods.length);
   }
 
   update() {

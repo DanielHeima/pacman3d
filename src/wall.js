@@ -7,10 +7,10 @@ export class Wall {
     this.shape.position.y = y;
     this.width = width;
     this.height = height;
-    this.leftX = this.shape.position.x + this.width / 2;
-    this.rightX = this.shape.position.x - this.width / 2;
+    this.leftX = this.shape.position.x - this.width / 2;
+    this.rightX = this.shape.position.x + this.width / 2;
     this.upY = this.shape.position.y + this.height / 2;
-    this.downY = this.shape.position.x - this.height / 2;
+    this.downY = this.shape.position.y - this.height / 2;
   }
 
   // virdist ekki vera nodad?
