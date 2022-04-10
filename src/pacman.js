@@ -29,6 +29,7 @@ export class Pacman {
     this.velX = 0;
     this.velY = 0;
   }
+
   update() {
     if (eatKey(KEY_W)) {
       this.velX = 0;
@@ -76,8 +77,6 @@ export class Pacman {
       default: 
         break;
     }
-    
-
   }
 
   killModeActivate() {

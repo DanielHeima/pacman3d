@@ -55,7 +55,7 @@ export class Ghost {
   }
   collide () {
     if (spatialManager.isSphereCollision(this, entityManager.pacman)) {
-      console.log("collision");
+      console.log("ghost collision");
     }
   }
   panik () {
