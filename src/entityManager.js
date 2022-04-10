@@ -40,6 +40,13 @@ export class EntityManager {
     //  this.foods.push(food);
     //}
   }
+  
+  addFood(x, y) {
+    let special = Math.random() < 0.1 ? true : false;
+    let food = new Food(x, y, special);
+    scene.add(food.shape);
+    this.foods.push(food);
+  }
 
   update() {
     this.pacman.update();
