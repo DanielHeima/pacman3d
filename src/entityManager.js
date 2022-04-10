@@ -16,8 +16,6 @@ export class EntityManager {
     const ghostCoord = this.level.ghostSpawnCoord;
     const pacCoord = this.level.pacmanSpawnCoord;
 
-    console.log(pacCoord);
-
     // make mr man
     this.pacman = new Pacman(pacCoord[0]);
     scene.add(this.pacman.shape);

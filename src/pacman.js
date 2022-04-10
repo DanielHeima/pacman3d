@@ -41,24 +41,27 @@ export class Pacman {
     const _R = controlObject.quaternion.clone();
 
     if (keys[KEY_W]) {
+    if (eatKey(KEY_W)) {
       this.velX = 0;
       this.velY = this.vel;
 
       _A.set(0, 1, 0);
       _Q.setFromAxisAngle(_A, Math.Pi / 2);
     }
-    if (keys[KEY_A]) {
+    if (eatKey(KEY_A)) {
       this.velX = -this.vel;
       this.velY = 0;
     }
-    if (keys[KEY_S]) {
+    if (eatKey(KEY_S)) {
       this.velX = 0;
       this.velY = -this.vel;
     }
-    if (keys[KEY_D]) {
+    if (eatKey(KEY_D)) {
       this.velX = this.vel;
       this.velY = 0;
     }
+  
+    this.collide()
 
     // finally update position;
     this.position["x"] += this.velX;
@@ -120,4 +123,13 @@ export class Pacman {
       this.velY = this.velY > 0 ? this.vel : -this.vel;
     }
   }
+  function eatKey(keyCode) {
+    if (keys[keyCode]) {
+      keys[keyCode] = false;
+      return true;
+    }
+    else return false;
+  }
 }
+
+

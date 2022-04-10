@@ -60,10 +60,10 @@ export class Level {
             let newWall = new Wall(
               this.baseLength,
               this.baseLength,
-              this.baseLength * 2
+              this.baseLength * 2,
+              j * this.baseLength,
+              i * this.baseLength
             );
-            newWall.shape.position.x = j * this.baseLength; //hmm oo hell
-            newWall.shape.position.y = i * this.baseLength; // hmmm
             this.walls.push(newWall);
             break;
           case 1:
