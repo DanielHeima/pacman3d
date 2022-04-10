@@ -42,7 +42,7 @@ export class Pacman {
     this.lives = 3;
     this.cooldown = false;
     this.cooldownTime = 5; // seconds
-    this.direction = 0; // 0 stop,  1 ypos, 2 3 4
+    this.direction = -1; // 0 stop,  1 ypos, 2 3 4
   }
 
   update() {
@@ -52,35 +52,32 @@ export class Pacman {
     const _R = controlObject.quaternion.clone();
 
     if (eatKey(KEY_W)) {
-      if (this.direction <= 0) this.direction += 1; // virkar bara thegar pac er stop
-      
+      if (this.direction <= -1) this.direction = 1; // virkar bara thegar pac er stop
     }
 
     if (eatKey(KEY_A)) {
       this.direction -= 1;
-      if (this.direction === 0) this.direction = 4;
+      if (this.direction === -1) this.direction = 3;
       //this.shape.rotation.z = Math.PI;
-      // this.shape.quaternion.setFromAxisAngle(
-      //   new THREE.Vector3(0, 0, 1),
-      //   Math.PI
-      // );
+      this.shape.quaternion.setFromAxisAngle(
+        new THREE.Vector3(0, 0, 1),
+        (-1 * Math.PI) / 2
+      );
     }
     if (eatKey(KEY_S)) {
-     this.direction = 0; // stop.. kannski beila a ad leifa...
+      this.direction = (this.direction + 2) % 4; // stop.. kannski beila a ad leifa...
+      this.shape.quaternion.setFromAxisAngle(
+        new THREE.Vector3(0, 0, 1),
+        Math.PI
+      );
     }
     if (eatKey(KEY_D)) {
       this.direction += 1;
-      if (this.direction === 5) this.direction = 1;
-
-      //this.shape.rotation.z = (Math.PI * 3) / 2;
-      // this.shape.quaternion.setFromAxisAngle(
-      //   new THREE.Vector3(0, 0, 1),
-      //   2 * Math.PI
-      // );
-      // cameraTP.camera.quaternion.setFromAxisAngle(
-      //   new THREE.Vector3(1, 0, 0),
-      //   (Math.PI * 3) / 2
-      // );
+      if (this.direction === 4) this.direction = 0;
+      this.shape.quaternion.setFromAxisAngle(
+        new THREE.Vector3(0, 0, 1),
+        (-1 * Math.PI) / 2
+      );
     }
 
     this.updateVelFromDirection();
@@ -95,57 +92,50 @@ export class Pacman {
     this.shape.position.copy(this.position);
     this.shape.updateMatrix();
 
+    console.log(cameraTP._target.quaternion);
+    console.log(this.shape.quaternion);
+
     cameraTP.update();
   }
 
   updateVelFromDirection() {
-    console.log(this.direction)
-    switch(this.direction) {
-      case 1: // pos y
+    //console.log(this.direction);
+    switch (this.direction) {
+      case 0: // pos y
         this.velX = 0;
         this.velY = this.vel;
-
-        this.shape.rotation.z = Math.PI / 2;
         this.shape.quaternion.setFromAxisAngle(
           new THREE.Vector3(0, 0, 1),
           Math.PI / 2
         );
         break;
-      case 2: // pos x
+      case 1: // pos x
         this.velX = this.vel;
         this.velY = 0;
-        //this.shape.rotation.z = (Math.PI * 3) / 2;
-        // this.shape.quaternion.setFromAxisAngle(
-        //   new THREE.Vector3(0, 0, 1),
-        //   2 * Math.PI
-        // );
-        // cameraTP.camera.quaternion.setFromAxisAngle(
-        //   new THREE.Vector3(1, 0, 0),
-        //   (Math.PI * 3) / 2
-        // );
+        this.shape.quaternion.setFromAxisAngle(
+          new THREE.Vector3(0, 0, 1),
+          2 * Math.PI
+        );
         break;
-      case 3: // neg y
+      case 2: // neg y
         this.velX = 0;
         this.velY = -this.vel;
-        //this.shape.rotation.z = 0;
-        // this.shape.quaternion.setFromAxisAngle(
-        //   new THREE.Vector3(0, 0, 1),
-        //   (Math.PI * 3) / 2
-        // );
+        this.shape.quaternion.setFromAxisAngle(
+          new THREE.Vector3(0, 0, 1),
+          (Math.PI * 3) / 2
+        );
         break;
-      case 4: // neg x
+      case 3: // neg x
         this.velX = -this.vel;
         this.velY = 0;
-        //this.shape.rotation.z = Math.PI;
-        // this.shape.quaternion.setFromAxisAngle(
-        //   new THREE.Vector3(0, 0, 1),
-        //   Math.PI
-        // );
+        this.shape.quaternion.setFromAxisAngle(
+          new THREE.Vector3(0, 0, 1),
+          Math.PI
+        );
         break;
       default:
         this.velX = 0;
         this.velY = 0;
-
     }
   }
 
@@ -205,14 +195,16 @@ export class Pacman {
     if (this.cooldown) return;
     this.cooldown = true;
     this.shape.material.color.set(this.cooldownColor);
-    this.countdownTimers.push(setTimeout(() => {
-      this.cooldown = false;
-      this.shape.material.color.set(this.defaultColor);
-    }, 1000 * this.cooldownTime));
+    this.countdownTimers.push(
+      setTimeout(() => {
+        this.cooldown = false;
+        this.shape.material.color.set(this.defaultColor);
+      }, 1000 * this.cooldownTime)
+    );
 
     this.lives -= 1;
     if (this.lives < 0) {
-    //   entityManager.lose();
+      //   entityManager.lose();
     }
     this.resetPosition();
   }
@@ -223,15 +215,12 @@ export class Pacman {
     this.shape.position.copy(this.position);
     this.shape.updateMatrix();
   }
-  
 }
 
 function eatKey(keyCode) {
-    if (keys[keyCode]) {
-      keys[keyCode] = false;
-      console.log("key")
-      return true;
-    } else 
-    return false;
+  if (keys[keyCode]) {
+    keys[keyCode] = false;
+    //console.log("key");
+    return true;
+  } else return false;
 }
-

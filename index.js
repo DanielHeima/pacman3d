@@ -14,8 +14,6 @@ window.onload = function init() {
   window.addEventListener("keyup", function (e) {
     keys[e.keyCode] = false;
   });
-
-
 };
 
 const renderer = new THREE.WebGLRenderer();

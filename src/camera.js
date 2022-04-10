@@ -2,6 +2,7 @@ export class ThirdPersonCamera {
   constructor(target, camera) {
     this._target = target;
     this._camera = camera;
+    this._camera.up.set(0, 0, 1);
 
     this._currentPosition = new THREE.Vector3();
     this._currentLookat = new THREE.Vector3();
