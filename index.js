@@ -60,11 +60,10 @@ const level = new Level()
 
 
 const testWalls = level.walls;
-console.log(level.walls);
 
 testWalls.forEach( item => {
   if (item == null) return; // dont push null;
-  scene.add(item.wall);
+  scene.add(item.shape);
 });
 
 
