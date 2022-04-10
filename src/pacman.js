@@ -95,6 +95,8 @@ export class Pacman {
 
     controlObject.quaternion.clone(_R); // her ef vid viljum smooth seinna
 
+    this.collide();
+
     this.position["x"] += this.velX;
     this.position["y"] += this.velY;
 
