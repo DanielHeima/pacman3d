@@ -14,6 +14,7 @@ export class EntityManager {
   ghostSpwnIdx = [9, 12, 15, 18];
   noFoods = 246;
   noFoodEaten = 0;
+  score = 0;
   gameOver = false;
   constructor() {
     this.level = new Level();
@@ -83,6 +84,15 @@ export class EntityManager {
     if (this.noFoodEaten >= this.noFoods) {
       this.win();
     }
+  }
+
+  win () {
+    this.gameOver = true;
+    // msg: You won! Press any key to play again.
+  }
+  lose () {
+    this.gameOver = true;
+    // msg: You lose. Press any key to play again.
   }
 
 

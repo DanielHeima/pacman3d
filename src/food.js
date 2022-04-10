@@ -1,7 +1,5 @@
 import { spatialManager, entityManager } from "../index.js";
 
-let score = 0;
-
 export class Food {
   constructor(x = 0, y = 0, special = false) {
     this.special = special;
@@ -30,11 +28,11 @@ export class Food {
       if (this.special) {
         // pacman found that special sauce
         entityManager.pacman.killModeActivate();
-        score += 50;
+        entityManager.score += 50;
       } else {
-        score+=10; 
+        entityManager.score+=10; 
       }
-      document.querySelector(".score").innerHTML = `Score: ${score}` ;
+      document.querySelector(".score").innerHTML = `Score: ${entityManager.score}` ;
       entityManager.eatFood(this);
     }
   }

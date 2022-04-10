@@ -26,12 +26,11 @@ export class Ghost {
     } else {
       this.velY = -this.vel;
     }
+    this.origX = x;
+    this.origY = y;
     this.position = new THREE.Vector3(x, y, 0);
     this.shape.rotation.x = Math.PI / 2;
     this.shape.position.copy(this.position);
-  //   setInterval(() => {
-  //     this.changeDirection();
-  // }, 3000);
   }
 
   update() {
@@ -40,32 +39,8 @@ export class Ghost {
     } else {
       // this.scan();mby reyna ad fara i attina ad pacman...
     }
-    this.collide();
- 
-    // switch(this.direction) {
-    //   case 0:
-    //     this.position["y"] += this.vel;
-    //     this.shape.position.copy(this.position);
-    //     this.shape.updateMatrix();
-    //     break;
-    //   case 2:
-    //     this.position["y"] -= this.vel;
-    //     this.shape.position.copy(this.position);
-    //     this.shape.updateMatrix();
-    //     break;
-    //   case 1:
-    //     this.position["x"] -= this.vel;
-    //     this.shape.position.copy(this.position);
-    //     this.shape.updateMatrix();
-    //     break;
-    //   case 3: 
-    //     this.position["x"] += this.vel;
-    //     this.shape.position.copy(this.position);
-    //     this.shape.updateMatrix();
-    //     break;
-    //   default:
-    //     break;      
-    // }
+    this.collide(); 
+    
     // finally update position;
     this.position["x"] += this.velX;
     this.position["y"] += this.velY;
@@ -78,7 +53,12 @@ export class Ghost {
     this.nextY = this.position["y"] + this.velY;
 
     if (spatialManager.isSphereCollision(this, entityManager.pacman)) {
-      console.log("ghost collision");
+      if (this.panic) {;
+        this.die();
+        return;
+      } else {
+        entityManager.pacman.die();
+      }
     }
 
     // wall collide
@@ -89,6 +69,8 @@ export class Ghost {
     // if (this.nextX < 0)
     
   }
+
+  // ghosts collide with walls
   wallCollide() {
     switch(spatialManager.isWallCollision(this)) {
       case 0:
@@ -110,6 +92,7 @@ export class Ghost {
     }
   }
 
+  // guide ghosts out of starting maze
   getOut() {
     let x = this.position["x"];
     let y = this.position["y"];
@@ -121,6 +104,7 @@ export class Ghost {
         this.out = true; // keyrist einu sinni fyrir hvert lifespan draugs i mesta lagi
     }
   }
+
   panik () {
     this.panic = true;
     this.shape.material.color.set(this.panicColor);
@@ -130,19 +114,17 @@ export class Ghost {
     this.panic = false;
     this.shape.material.color.set(this.c);
   }
-  changeDirection() {
-    if (Math.random() < 0.5) {
-      this.velX = this.vel;
-    } else {
-      this.velX = -this.vel;
-    }
-    if (Math.random() < 0.5) {
-      this.velY = 0;
-    } else if (Math.random() < 0.5) {
-      this.velY = this.vel;
-    } else {
-      this.velY = -this.vel;
-    }
+
+  die () {
+    this.resetPosition();
+    this.out = false;
+    entityManager.score += 100;
   }
 
+  resetPosition() {
+    this.position["x"] = this.origX;
+    this.position["y"] = this.origY;
+    this.shape.position.copy(this.position);
+    this.shape.updateMatrix();
+  }
 }

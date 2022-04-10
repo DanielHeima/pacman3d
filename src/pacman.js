@@ -18,16 +18,22 @@ export class Pacman {
     this.origY = pos[1];
     this.radius = 9;
     this.geometry = new THREE.SphereGeometry(this.radius, 100, 100, 0, 5.5);
-    this.material = new THREE.MeshPhongMaterial({ color: "yellow", specular: "#111111", shininess: 30, combine: THREE.MultiplyOperation, reflectivity: 0.6 });
+    this.defaultColor = "yellow";
+    this.cooldownColor = "pink"
+    this.material = new THREE.MeshPhongMaterial({ color: this.defaultColor, specular: "#111111", shininess: 30, combine: THREE.MultiplyOperation, reflectivity: 0.6 });
     this.shape = new THREE.Mesh(this.geometry, this.material);
     // this.direction = -1; // default stop
     this.position = new THREE.Vector3(this.origX, this.origY, 0);
+    this.originalPosition = this.position;
     this.shape.position.copy(this.position);
-    this.defaultVel = 2;
+    this.defaultVel = 2.1;
     this.killModeVel = 3;
     this.vel = this.defaultVel; // pacmans velocity
-    this.velX = 0;
-    this.velY = 0;
+    this.velX = 0; // default stop
+    this.velY = 0; // default stop
+    this.lives = 3;
+    this.cooldown = false;
+    this.cooldownTime = 5; // seconds
   }
 
   update() {
@@ -59,8 +65,8 @@ export class Pacman {
     this.shape.updateMatrix();
     
     // dummy camera
-    camera.position.copy(cpos);
-    camera.lookAt(this.position);
+    // camera.position.copy(cpos);
+    // camera.lookAt(this.position);
   }
 
   collide() {
@@ -98,7 +104,6 @@ export class Pacman {
       for (let ghost of entityManager.ghosts) {
         ghost.kalm();
       }
-
     }, 1000 * killerModeDuration));
   }
 
@@ -114,7 +119,32 @@ export class Pacman {
     }
 
   }
+
+  die() {
+    if (this.cooldown) return;
+    this.cooldown = true;
+    this.shape.material.color.set(this.cooldownColor);
+    this.countdownTimers.push(setTimeout(() => {
+      this.cooldown = false;
+      this.shape.material.color.set(this.defaultColor);
+    }, 1000 * this.cooldownTime));
+
+    this.lives -= 1;
+    if (this.lives < 0) {
+    //   entityManager.lose();
+    }
+    this.resetPosition();
+  }
+
+  resetPosition() {
+    this.position["x"] = this.origX;
+    this.position["y"] = this.origY;
+    this.shape.position.copy(this.position);
+    this.shape.updateMatrix();
+  }
 }
+
+
 
 function eatKey(keyCode) {
   if (keys[keyCode]) {
