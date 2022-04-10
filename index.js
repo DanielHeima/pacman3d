@@ -67,10 +67,6 @@ testWalls.forEach( item => {
 });
 
 
-
-
-// entityManager.kill(entityManager.pacman.sphere);
-
 camera.position.z = 1000;
 camera.position.y = 500;
 camera.position.x = 500;
