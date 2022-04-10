@@ -1,5 +1,7 @@
 import { Pacman } from "./pacman.js";
 import { scene } from "../index.js"
+import { Floor } from "./floor.js";
+import { Wall } from "./wall.js";
 
 let noGhosts = 4;
 
@@ -8,6 +10,9 @@ export class EntityManager {
   foods = [];
   constructor() {
     this.pacman = new Pacman();
+    this.plane = new Floor();
+    this.wall = new Wall(100, 10, 1);
+    this.wall.setPos(30,30,30);
 
   }
 

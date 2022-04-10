@@ -29,22 +29,20 @@ export class Pacman {
     if (keys[KEY_D]) {
       this.direction = 3;
     }
-    let cpos = new THREE.Vector3(this.position["x"]-10, this.position["y"]-10, this.position["z"] + 30  );;
-    console.log(cpos)
-    console.log(this.position)
+    //let cpos = new THREE.Vector3(this.position["x"]-10, this.position["y"]-10, this.position["z"] + 30  );
     
     switch(this.direction) {
       case 0:
         this.position["y"] += this.vel;
         this.sphere.position.copy(this.position);
         this.sphere.updateMatrix();
-        camera.position.copy(cpos); // finpussa
+        //camera.position.copy(cpos); // finpussa
         break;
       case 2:
         this.position["y"] -= this.vel;
         this.sphere.position.copy(this.position);
         this.sphere.updateMatrix();
-        camera.position.copy(cpos); // finpussa, gera lika vid 1 og 3
+        //camera.position.copy(cpos); // finpussa, gera lika vid 1 og 3
         break;
       case 1:
         this.position["x"] -= this.vel;
@@ -59,7 +57,7 @@ export class Pacman {
       default:
         break;      
     }
-    camera.lookAt(this.position);
+    //camera.lookAt(this.position);
 
   }
 }
