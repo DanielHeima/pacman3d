@@ -44,7 +44,7 @@ export class Level {
   foodsCoord = [];
   ghostSpawnCoord = [];
   //kannski ekki flott ad hafa fylki hér
-  pacmanCoord = [];
+  pacmanSpawnCoord = [];
   baseLength = 30;
   middle = 15 * this.baseLength;
   constructor() {
