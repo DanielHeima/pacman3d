@@ -5,20 +5,18 @@ export class ThirdPersonCamera {
 
     this._currentPosition = new THREE.Vector3();
     this._currentLookat = new THREE.Vector3();
-
-    this.update();
   }
 
   calculateIdealOffset() {
-    const idealOffset = new THREE.Vector3(0, 0, -50);
-    //idealOffset.applyQuaternion(this._params.Rotation);
+    const idealOffset = new THREE.Vector3(-20, 0, 30);
+    idealOffset.applyQuaternion(this._target.quaternion);
     idealOffset.add(this._target.position);
     return idealOffset;
   }
 
   calculateIdealLookat() {
-    const idealLookat = new THREE.Vector3(0, 0, 0);
-    //idealLookat.applyQuaternion(this._target.Rotation);
+    const idealLookat = new THREE.Vector3(20, 0, 0);
+    idealLookat.applyQuaternion(this._target.quaternion);
     idealLookat.add(this._target.position);
     return idealLookat;
   }

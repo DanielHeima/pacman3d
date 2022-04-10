@@ -1,7 +1,11 @@
-import { scene, camera, entityManager, cameraTP } from "../index.js";
 import { ThirdPersonCamera } from "./camera.js";
-import { keys, KEY_W, KEY_A, KEY_S, KEY_D } from "./keys.js";
-import { scene, camera, entityManager, spatialManager } from "../index.js";
+import {
+  scene,
+  camera,
+  entityManager,
+  spatialManager,
+  cameraTP,
+} from "../index.js";
 import { keys, KEY_W, KEY_A, KEY_S, KEY_D } from "./keys.js";
 
 const killerModeDuration = 10; // seconds
@@ -32,6 +36,7 @@ export class Pacman {
     this.vel = this.defaultVel; // pacmans velocity
     this.velX = 0;
     this.velY = 0;
+    this.direction = 0;
   }
 
   update() {
@@ -39,33 +44,55 @@ export class Pacman {
     const _Q = new THREE.Quaternion();
     const _A = new THREE.Vector3();
     const _R = controlObject.quaternion.clone();
+    console.log(_R);
 
     if (keys[KEY_W]) {
-    if (eatKey(KEY_W)) {
       this.velX = 0;
       this.velY = this.vel;
 
-      _A.set(0, 1, 0);
-      _Q.setFromAxisAngle(_A, Math.Pi / 2);
+      //this.shape.rotation.z = Math.PI / 2;
+      this.shape.quaternion.setFromAxisAngle(
+        new THREE.Vector3(0, 0, 1),
+        Math.PI / 2
+      );
     }
-    if (eatKey(KEY_A)) {
+    if (keys[KEY_A]) {
       this.velX = -this.vel;
       this.velY = 0;
+      //this.shape.rotation.z = Math.PI;
+      this.shape.quaternion.setFromAxisAngle(
+        new THREE.Vector3(0, 0, 1),
+        Math.PI
+      );
     }
-    if (eatKey(KEY_S)) {
+    if (keys[KEY_S]) {
       this.velX = 0;
       this.velY = -this.vel;
+      //this.shape.rotation.z = 0;
+      this.shape.quaternion.setFromAxisAngle(
+        new THREE.Vector3(0, 0, 1),
+        (Math.PI * 3) / 2
+      );
     }
-    if (eatKey(KEY_D)) {
+    if (keys[KEY_D]) {
       this.velX = this.vel;
       this.velY = 0;
+      //this.shape.rotation.z = (Math.PI * 3) / 2;
+      this.shape.quaternion.setFromAxisAngle(
+        new THREE.Vector3(0, 0, 1),
+        2 * Math.PI
+      );
+      cameraTP.camera.quaternion.setFromAxisAngle(
+        new THREE.Vector3(1, 0, 0),
+        (Math.PI * 3) / 2
+      );
     }
-  
-    this.collide()
 
-    // finally update position;
+    controlObject.quaternion.clone(_R); // her ef vid viljum smooth seinna
+
     this.position["x"] += this.velX;
     this.position["y"] += this.velY;
+
     this.shape.position.copy(this.position);
     this.shape.updateMatrix();
 
@@ -123,13 +150,11 @@ export class Pacman {
       this.velY = this.velY > 0 ? this.vel : -this.vel;
     }
   }
-  function eatKey(keyCode) {
-    if (keys[keyCode]) {
-      keys[keyCode] = false;
-      return true;
-    }
-    else return false;
-  }
 }
 
-
+function eatKey(keyCode) {
+  if (keys[keyCode]) {
+    keys[keyCode] = false;
+    return true;
+  } else return false;
+}
