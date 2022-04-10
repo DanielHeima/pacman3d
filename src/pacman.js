@@ -44,10 +44,8 @@ export class Pacman {
   }
 
   update() {
-    const controlObject = this.shape;
-    const _Q = new THREE.Quaternion();
-    const _A = new THREE.Vector3();
-    const _R = controlObject.quaternion.clone();
+    //const controlObject = this.shape;
+    //const _R = controlObject.quaternion.clone();
 
     if (eatKey(KEY_W)) {
       if (this.direction <= -1) this.direction = 1; // virkar bara thegar pac er stop
@@ -77,11 +75,15 @@ export class Pacman {
         (-1 * Math.PI) / 2
       );
     }
-    if (eatKey(KEY_I)) { // i pressed
+    if (eatKey(KEY_I)) {
+      // i pressed
+      cameraTP.setOffset(9, 0, 0);
       console.log("i");
     }
-    if (eatKey(KEY_P)) { // p pressed
+    if (eatKey(KEY_P)) {
+      // p pressed
       console.log("p");
+      cameraTP.setOffset(-20, 0, 30);
     }
     if (eatKey(KEY_L)) { // l pressed
       console.log("p");
@@ -90,7 +92,7 @@ export class Pacman {
 
     this.updateVelFromDirection();
 
-    controlObject.quaternion.clone(_R); // her ef vid viljum smooth seinna
+    //controlObject.quaternion.clone(_R); // her ef vid viljum smooth seinna
 
     this.collide();
 
@@ -99,9 +101,6 @@ export class Pacman {
 
     this.shape.position.copy(this.position);
     this.shape.updateMatrix();
-
-    // console.log(cameraTP._target.quaternion);
-    // console.log(this.shape.quaternion);
 
     cameraTP.update();
   }
@@ -230,11 +229,10 @@ export class Pacman {
   }
 
   updateText() {
-    document.querySelector(".lives").innerHTML = `Lives left: ${this.lives}` ;
+    document.querySelector(".lives").innerHTML = `Lives left: ${this.lives}`;
     if (this.modeKiller) {
-     document.querySelector(".lives").innerHTML = `Killmode Activated` ;
+      document.querySelector(".lives").innerHTML = `Killmode Activated`;
     }
-
   }
 }
 
