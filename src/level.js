@@ -42,6 +42,9 @@ export class Level {
 
   walls = [];
   foodsCoord = [];
+  ghostSpawnCoord = [];
+  //kannski ekki flott ad hafa fylki hér
+  pacmanCoord = [];
   baseLength = 30;
   middle = 15 * this.baseLength;
   constructor() {
@@ -70,18 +73,24 @@ export class Level {
           case 1:
             // food spawn
             let xfoodCoord = i * this.baseLength;
-            let yfoodCoord = j * this.baseLength; // mid
+            let yfoodCoord = j * this.baseLength;
             let foodCoord = [xfoodCoord, yfoodCoord];
             this.foodsCoord.push(foodCoord);
             break;
           case 3:
-            // ghosts spawn
+            let xGhostCoord = i * this.baseLength;
+            let yGhostCoord = j * this.baseLength;
+            let ghostCoord = [xGhostCoord, yGhostCoord];
+            this.ghostSpawnCoord.push(ghostCoord);
             break;
           case 4:
             // teleport
             break;
           case 9:
-            // pacman spawn
+            let xPacmanCoord = i * this.baseLength;
+            let yPacmanCoord = j * this.baseLength;
+            let pacmanCoord = [xPacmanCoord, yPacmanCoord];
+            this.pacmanSpawnCoord.push(pacmanCoord);
             break;
           default:
         }
