@@ -46,9 +46,7 @@ export class SpatialManager {
     let nextX = entity.nextX;
     let nextY = entity.nextY;
     this.time+=1;
-    if (this.time % 10000 == 0) {
-      console.log(x, nextX);
-    }
+    
 
     // dims and nextDims
     const leftXent = x - entity.radius;
@@ -60,16 +58,22 @@ export class SpatialManager {
     const nextupYent = nextY + entity.radius;
     const nextdownYent = nextY - entity.radius;
 
+    if (this.time % 10000 == 0) {
+      console.log(downYwall, upYwall);
+    }
+  
     // nextY á milli downYwall og upYwall
     if (downYwall < nextY && nextY < upYwall) {
+      // console.log("nextY a milli downYwall og upYwall")
       // left to right
       // && right vinstra megin vid leftXwall en nextright hægra megin
       if (rightXent < leftXwall && nextrightXent > leftXwall) {
+        console.log("left to right");
         return 0;
       }      
       // right to left
     }
-    
+
 
     // down to up
 

@@ -30,26 +30,26 @@ export class Pacman {
     this.velY = 0;
   }
   update() {
-    if (keys[KEY_W]) {
+    if (eatKey(KEY_W)) {
       this.velX = 0;
       this.velY = this.vel;
     }
-    if (keys[KEY_A]) {
+    if (eatKey(KEY_A)) {
       this.velX = -this.vel;
       this.velY = 0;
     }
-    if (keys[KEY_S]) {
+    if (eatKey(KEY_S)) {
       this.velX = 0;
       this.velY = -this.vel;
     }
-    if (keys[KEY_D]) {
+    if (eatKey(KEY_D)) {
       this.velX = this.vel;
       this.velY = 0;
     }
     // temp camera
     let cpos = new THREE.Vector3(this.position["x"]-10, this.position["y"]-10, this.position["z"] + 60  );
 
-    // this.collide()
+    this.collide()
 
     // finally update position;
     this.position["x"] += this.velX;
@@ -58,8 +58,8 @@ export class Pacman {
     this.shape.updateMatrix();
     
     // dummy camera
-    // camera.position.copy(cpos);
-    // camera.lookAt(this.position);
+    camera.position.copy(cpos);
+    camera.lookAt(this.position);
   }
 
   collide() {
@@ -115,6 +115,12 @@ export class Pacman {
     }
 
   }
+}
 
-
+function eatKey(keyCode) {
+  if (keys[keyCode]) {
+    keys[keyCode] = false;
+    return true;
+  }
+  else return false;
 }
