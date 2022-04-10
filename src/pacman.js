@@ -220,7 +220,6 @@ export class Pacman {
 function eatKey(keyCode) {
   if (keys[keyCode]) {
     keys[keyCode] = false;
-    //console.log("key");
     return true;
   } else return false;
 }

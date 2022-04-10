@@ -46,6 +46,7 @@ export class Level {
   //kannski ekki flott ad hafa fylki hér
   pacmanSpawnCoord = [];
   baseLength = 30;
+  middle = 15 * this.baseLength;
   constructor() {
     this.floor = new Floor(this.baseLength * 32, this.baseLength * 32);
     this.init();
