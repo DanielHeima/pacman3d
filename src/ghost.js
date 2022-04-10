@@ -21,7 +21,7 @@ export class Ghost {
   }
 
   update() {
-    if (entityManager.pacman.modeKiller) {
+    if (this.panic) {
       //... ekki vera ad scanna amk.. kannski reyna ad fordast pacman
     } else {
       // this.scan();mby reyna ad fara i attina ad pacman...
