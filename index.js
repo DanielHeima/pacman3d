@@ -1,3 +1,4 @@
+import { ThirdPersonCamera } from "./src/camera.js";
 import { EntityManager } from "./src/entityManager.js";
 import { keys } from "./src/keys.js";
 import { Level } from "./src/level.js";
@@ -57,15 +58,20 @@ scene.background = skyTex;
 export const entityManager = new EntityManager(); //singleton
 export const spatialManager = new SpatialManager(); // singleton
 
-camera.position.z = 1000;
-camera.position.y = 500;
-camera.position.x = 500;
+export const cameraTP = new ThirdPersonCamera(
+  entityManager.pacman.shape,
+  camera
+);
+
+//camera.position.z = 1000;
+//camera.position.y = 500;
+//camera.position.x = 500;
 
 function render() {
   requestAnimationFrame(render);
   entityManager.update();
   if (!entityManager.gameOver) {
-    renderer.render(scene, camera);
+    renderer.render(scene, cameraTP._camera);
   }
 }
 
