@@ -23,8 +23,8 @@ export class Pacman {
     // this.direction = -1; // default stop
     this.position = new THREE.Vector3(this.origX, this.origY, 0);
     this.shape.position.copy(this.position);
-    this.defaultVel = 1;
-    this.killModeVel = 2;
+    this.defaultVel = 2;
+    this.killModeVel = 3;
     this.vel = this.defaultVel; // pacmans velocity
     this.velX = 0;
     this.velY = 0;
@@ -59,8 +59,8 @@ export class Pacman {
     this.shape.updateMatrix();
     
     // dummy camera
-    camera.position.copy(cpos);
-    camera.lookAt(this.position);
+    // camera.position.copy(cpos);
+    // camera.lookAt(this.position);
   }
 
   collide() {

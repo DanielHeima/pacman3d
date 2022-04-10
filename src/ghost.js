@@ -10,14 +10,28 @@ export class Ghost {
     this.geometry = new THREE.CapsuleGeometry(this.radius, 15, 16, 32); // cons: radius, length, capSegs, heightSegs
     this.material = new THREE.MeshPhongMaterial({ color: this.c, specular: "#111111", emissive: "#404040", shininess: 30, combine: THREE.MultiplyOperation, reflectivity: 0.6 });
     this.shape = new THREE.Mesh(this.geometry, this.material);
-    this.vel = 0.5;
-    this.direction = Math.floor(Math.random() * 5);
+    this.vel = 2;
+    this.velX;
+    this.velY;
+    this.out = false;
+    if (Math.random() < 0.5) {
+      this.velX = this.vel;
+    } else {
+      this.velX = -this.vel;
+    }
+    if (Math.random() < 0.5) {
+      this.velY = 0;
+    } else if (Math.random() < 0.5) {
+      this.velY = this.vel;
+    } else {
+      this.velY = -this.vel;
+    }
     this.position = new THREE.Vector3(x, y, 0);
     this.shape.rotation.x = Math.PI / 2;
     this.shape.position.copy(this.position);
-    setInterval(() => {
-      this.direction = Math.floor(Math.random() * 5);
-  }, 3000);
+  //   setInterval(() => {
+  //     this.changeDirection();
+  // }, 3000);
   }
 
   update() {
@@ -28,34 +42,83 @@ export class Ghost {
     }
     this.collide();
  
-    switch(this.direction) {
-      case 0:
-        this.position["y"] += this.vel;
-        this.shape.position.copy(this.position);
-        this.shape.updateMatrix();
-        break;
-      case 2:
-        this.position["y"] -= this.vel;
-        this.shape.position.copy(this.position);
-        this.shape.updateMatrix();
-        break;
-      case 1:
-        this.position["x"] -= this.vel;
-        this.shape.position.copy(this.position);
-        this.shape.updateMatrix();
-        break;
-      case 3: 
-        this.position["x"] += this.vel;
-        this.shape.position.copy(this.position);
-        this.shape.updateMatrix();
-        break;
-      default:
-        break;      
-    }
+    // switch(this.direction) {
+    //   case 0:
+    //     this.position["y"] += this.vel;
+    //     this.shape.position.copy(this.position);
+    //     this.shape.updateMatrix();
+    //     break;
+    //   case 2:
+    //     this.position["y"] -= this.vel;
+    //     this.shape.position.copy(this.position);
+    //     this.shape.updateMatrix();
+    //     break;
+    //   case 1:
+    //     this.position["x"] -= this.vel;
+    //     this.shape.position.copy(this.position);
+    //     this.shape.updateMatrix();
+    //     break;
+    //   case 3: 
+    //     this.position["x"] += this.vel;
+    //     this.shape.position.copy(this.position);
+    //     this.shape.updateMatrix();
+    //     break;
+    //   default:
+    //     break;      
+    // }
+    // finally update position;
+    this.position["x"] += this.velX;
+    this.position["y"] += this.velY;
+    this.shape.position.copy(this.position);
+    this.shape.updateMatrix();
+
   }
   collide () {
+    this.nextX = this.position["x"] + this.velX;
+    this.nextY = this.position["y"] + this.velY;
+
     if (spatialManager.isSphereCollision(this, entityManager.pacman)) {
       console.log("ghost collision");
+    }
+
+    // wall collide
+    this.wallCollide();
+    if (!this.out)
+      this.getOut();
+    // world bounds
+    // if (this.nextX < 0)
+    
+  }
+  wallCollide() {
+    switch(spatialManager.isWallCollision(this)) {
+      case 0:
+        this.velX = 0;
+        this.velY = Math.random() < 0.5 ? this.vel : -this.vel;
+        this.nextX = this.position["x"] + this.velX;
+        this.nextY = this.position["y"] + this.velY;
+        this.wallCollide(); // næsta gæti verið ólöglegt, prófum aftur
+        break;
+      case 1:
+        this.velX = Math.random() < 0.5 ? this.vel : -this.vel;
+        this.velY = 0;
+        this.nextX = this.position["x"] + this.velX;
+        this.nextY = this.position["y"] + this.velY;
+        this.wallCollide(); // næsta gæti verið ólöglegt, prófum aftur
+        break;
+      default: 
+        break;
+    }
+  }
+
+  getOut() {
+    let x = this.position["x"];
+    let y = this.position["y"];
+    let middle = entityManager.level.middle;
+    if (Math.abs(y - middle) < 4*entityManager.level.baseLength -2&&
+      Math.abs(x - middle) < 5) {
+        this.velX = 0;
+        this.velY = -this.vel;
+        this.out = true; // keyrist einu sinni fyrir hvert lifespan draugs i mesta lagi
     }
   }
   panik () {
@@ -67,4 +130,19 @@ export class Ghost {
     this.panic = false;
     this.shape.material.color.set(this.c);
   }
+  changeDirection() {
+    if (Math.random() < 0.5) {
+      this.velX = this.vel;
+    } else {
+      this.velX = -this.vel;
+    }
+    if (Math.random() < 0.5) {
+      this.velY = 0;
+    } else if (Math.random() < 0.5) {
+      this.velY = this.vel;
+    } else {
+      this.velY = -this.vel;
+    }
+  }
+
 }
