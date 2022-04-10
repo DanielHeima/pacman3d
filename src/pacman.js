@@ -71,13 +71,9 @@ export class Pacman {
       );
     }
     if (eatKey(KEY_I)) {
-      // i pressed
       cameraTP.setOffset(9, 0, 0);
-      console.log("i");
     }
     if (eatKey(KEY_P)) {
-      // p pressed
-      console.log("p");
       cameraTP.setOffset(-20, 0, 30);
     }
 
