@@ -8,22 +8,27 @@ import { keys,
 
 const killerModeDuration = 10; // seconds
 export class Pacman {
-  constructor() {
+  constructor(pos) {
+    console.log(pos);
+    if (!pos) {
+      pos = [450, 200]
+    }
     this.countdownTimers = [];
     this.modeKiller = false;
-    this.origX = 0;
-    this.origY = 0;
+    this.origX = pos[0];
+    this.origY = pos[1];
     this.radius = 10;
     this.geometry = new THREE.SphereGeometry(this.radius, 100, 100, 0, 5.5);
     this.material = new THREE.MeshPhongMaterial({ color: "yellow", specular: "#111111", shininess: 30, combine: THREE.MultiplyOperation, reflectivity: 0.6 });
     this.shape = new THREE.Mesh(this.geometry, this.material);
-    this.shape.matrixAutoUpdate = false;
-    this.vel = 0.5;
     this.direction = -1; // default stop
     this.position = new THREE.Vector3(this.origX, this.orygY, 0);
+    console.log(this.shape.position);
+    this.shape.position.copy(this.position);
+    this.vel = 3;
   }
   update() {
-    console.log(this.modeKiller)
+    console.log(this.shape.position);
     if (keys[KEY_W]) {
       this.direction = 0;
     }

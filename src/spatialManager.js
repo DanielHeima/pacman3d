@@ -5,7 +5,7 @@ export class SpatialManager {
   }
 
   // assume objects have radius
-  areSpheresColliding(obj1, obj2) { 
+  isSphereCollision(obj1, obj2) { 
     // hunsum z, fyrir utan það sem er (langt) undir map
     if (obj1.z < -100 || obj2.z < -100) return false;
     // ef lengd á milli (x1, y1) og (x2,y2) < radius1+radius2 þá collision
@@ -22,7 +22,11 @@ export class SpatialManager {
     return lengthsq < Math.pow(radius1 + radius2, 2);
   }
 
-  isPacWallCollision(pac, wall) {
-
+  // check for wall collision against ghost or pacman
+  isSphereWallCollision(entity, wall) {
+    const { leftX, rightX, upY, downY } = wall.getDims();
+    let x1 = entity.position.x;
+    let y1 = entity.position.y;
+    
   }
 }

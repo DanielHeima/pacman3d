@@ -26,7 +26,7 @@ export class Food {
     this.collide();
   }
   collide () {
-    if (spatialManager.areSpheresColliding(this, entityManager.pacman)) {
+    if (spatialManager.isSphereCollision(this, entityManager.pacman)) {
       if (this.special) {
         // pacman found that special sauce
         entityManager.pacman.killModeActivate();

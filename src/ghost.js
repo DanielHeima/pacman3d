@@ -54,7 +54,7 @@ export class Ghost {
     }
   }
   collide () {
-    if (spatialManager.areSpheresColliding(this, entityManager.pacman)) {
+    if (spatialManager.isSphereCollision(this, entityManager.pacman)) {
       console.log("collision");
     }
   }
