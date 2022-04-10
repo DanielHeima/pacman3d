@@ -51,7 +51,6 @@ scene.background = skyTex;
 
 //todo window resize
 
-export const level = new Level();
 export const entityManager = new EntityManager(); //singleton
 export const spatialManager = new SpatialManager(); // singleton
 
