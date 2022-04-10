@@ -11,6 +11,7 @@ export class EntityManager {
   ghosts = [];
   foods = [];
   colors = ["red", "cyan", "pink", "orange"];
+  ghostSpwnIdx = [9, 12, 15, 18];
   constructor() {
     this.level = new Level();
     const ghostCoord = this.level.ghostSpawnCoord;
@@ -19,13 +20,13 @@ export class EntityManager {
     console.log(pacCoord);
 
     // make mr man
-    this.pacman = new Pacman();
+    this.pacman = new Pacman(pacCoord[0]);
     scene.add(this.pacman.shape);
 
     // make ghosts
     for (let i = 0; i < noGhosts; i +=1) {
-      let x = 0;
-      let y = 0;
+      let x = ghostCoord[this.ghostSpwnIdx[i]][0];
+      let y = ghostCoord[this.ghostSpwnIdx[i]][1];
       let ghost = new Ghost(x, y, this.colors[i % this.colors.length]);
       scene.add(ghost.shape);
       this.ghosts.push(ghost);

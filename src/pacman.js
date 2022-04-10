@@ -9,7 +9,6 @@ import { keys,
 const killerModeDuration = 10; // seconds
 export class Pacman {
   constructor(pos) {
-    console.log(pos);
     if (!pos) {
       pos = [450, 200]
     }
@@ -22,13 +21,11 @@ export class Pacman {
     this.material = new THREE.MeshPhongMaterial({ color: "yellow", specular: "#111111", shininess: 30, combine: THREE.MultiplyOperation, reflectivity: 0.6 });
     this.shape = new THREE.Mesh(this.geometry, this.material);
     this.direction = -1; // default stop
-    this.position = new THREE.Vector3(this.origX, this.orygY, 0);
-    console.log(this.shape.position);
+    this.position = new THREE.Vector3(this.origX, this.origY, 0);
     this.shape.position.copy(this.position);
     this.vel = 3;
   }
   update() {
-    console.log(this.shape.position);
     if (keys[KEY_W]) {
       this.direction = 0;
     }
@@ -42,8 +39,6 @@ export class Pacman {
       this.direction = 3;
     }
     let cpos = new THREE.Vector3(this.position["x"]-10, this.position["y"]-10, this.position["z"] + 30  );
-    // console.log(cpos)
-    // console.log(this.position)
     
     switch(this.direction) {
       case 0:
