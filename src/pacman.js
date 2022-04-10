@@ -1,6 +1,8 @@
 import { scene, camera, entityManager, cameraTP } from "../index.js";
 import { ThirdPersonCamera } from "./camera.js";
 import { keys, KEY_W, KEY_A, KEY_S, KEY_D } from "./keys.js";
+import { scene, camera, entityManager, spatialManager } from "../index.js";
+import { keys, KEY_W, KEY_A, KEY_S, KEY_D } from "./keys.js";
 
 const killerModeDuration = 10; // seconds
 export class Pacman {
@@ -22,92 +24,70 @@ export class Pacman {
       reflectivity: 0.6,
     });
     this.shape = new THREE.Mesh(this.geometry, this.material);
-    this.direction = -1; // default stop
+    // this.direction = -1; // default stop
     this.position = new THREE.Vector3(this.origX, this.origY, 0);
     this.shape.position.copy(this.position);
-    this.vel = 3;
+    this.defaultVel = 1;
+    this.killModeVel = 2;
+    this.vel = this.defaultVel; // pacmans velocity
+    this.velX = 0;
+    this.velY = 0;
   }
 
   update() {
-    if (keys[KEY_W]) {
-      this.direction = 0;
-    }
-    if (keys[KEY_A]) {
-      this.direction = 1;
-    }
-    if (keys[KEY_S]) {
-      this.direction = 2;
-    }
-    if (keys[KEY_D]) {
-      this.direction = 3;
-    }
-    let cpos = new THREE.Vector3(
-      this.position["x"],
-      this.position["y"],
-      this.position["z"] + 70
-    );
-
     const controlObject = this.shape;
     const _Q = new THREE.Quaternion();
     const _A = new THREE.Vector3();
     const _R = controlObject.quaternion.clone();
 
-    switch (this.direction) {
+    if (keys[KEY_W]) {
+      this.velX = 0;
+      this.velY = this.vel;
+
+      _A.set(0, 1, 0);
+      _Q.setFromAxisAngle(_A, Math.Pi / 2);
+    }
+    if (keys[KEY_A]) {
+      this.velX = -this.vel;
+      this.velY = 0;
+    }
+    if (keys[KEY_S]) {
+      this.velX = 0;
+      this.velY = -this.vel;
+    }
+    if (keys[KEY_D]) {
+      this.velX = this.vel;
+      this.velY = 0;
+    }
+
+    // finally update position;
+    this.position["x"] += this.velX;
+    this.position["y"] += this.velY;
+    this.shape.position.copy(this.position);
+    this.shape.updateMatrix();
+
+    cameraTP.update();
+  }
+
+  collide() {
+    this.nextX = this.position["x"] + this.velX;
+    this.nextY = this.position["y"] + this.velY;
+
+    switch (spatialManager.isWallCollision(this)) {
       case 0:
-        //let testq = _Q.rotateTowards(_R, Math.PI / 2);
-
-        //this.shape.quaternion.copy(testq);
-
-        this.position["y"] += this.vel;
-        this.shape.position.copy(this.position);
-        this.shape.updateMatrix();
-
-        cameraTP.update(); // finpussa
-        break;
-      case 2:
-        //_A.set(0, 1, 0);
-        //_Q.setFromAxisAngle(_A, (Math.PI / 2) * 3);
-        ////_R.multiply(_Q);
-
-        //this.shape.quaternion.copy(_R);
-
-        this.position["y"] -= this.vel;
-        this.shape.position.copy(this.position);
-        this.shape.updateMatrix();
-        cameraTP.update(); // finpussa, gera lika vid 1 og 3
+        this.velX = 0;
         break;
       case 1:
-        //_A.set(0, 1, 0);
-        //_Q.setFromAxisAngle(_A, Math.PI);
-        //_R.multiply(_Q);
-
-        //this.shape.quaternion.copy(_R);
-
-        this.position["x"] -= this.vel;
-        this.shape.position.copy(this.position);
-        this.shape.updateMatrix();
-
-        cameraTP.update();
-        break;
-      case 3:
-        //_A.set(0, 1, 0);
-        //_Q.setFromAxisAngle(_A, 0);
-        //_R.multiply(_Q);
-
-        //this.shape.quaternion.copy(_R);
-
-        this.position["x"] += this.vel;
-        this.shape.position.copy(this.position);
-        this.shape.updateMatrix();
-        cameraTP.update();
+        this.velY = 0;
         break;
       default:
         break;
     }
-    //camera.lookAt(this.position);
   }
+
   killModeActivate() {
     this.modeKiller = true;
+    this.updateVel();
     for (let ghost of entityManager.ghosts) {
       ghost.panik();
     }
@@ -115,14 +95,29 @@ export class Pacman {
     for (let timeout of this.countdownTimers) {
       clearTimeout(timeout);
     }
-    // geyma timer til ad geta cancelad ef vid finnum annan special boi
+    // geyma timer til ad geta cancelad ef vid finnum annan special boi food
     this.countdownTimers.push(
       setTimeout(() => {
         this.modeKiller = false;
+        this.vel = this.defaultVel;
+        this.updateVel();
+
         for (let ghost of entityManager.ghosts) {
           ghost.kalm();
         }
       }, 1000 * killerModeDuration)
     );
+  }
+
+  updateVel() {
+    this.vel = this.modeKiller ? this.killModeVel : this.defaultVel;
+
+    // also.... need this so we don't wait until next keypress to update
+    if (this.velX != 0) {
+      this.velX = this.velX > 0 ? this.vel : -this.vel;
+    }
+    if (this.velY != 0) {
+      this.velY = this.velY > 0 ? this.vel : -this.vel;
+    }
   }
 }

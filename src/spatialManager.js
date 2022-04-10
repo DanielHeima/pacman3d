@@ -1,7 +1,7 @@
 import { entityManager } from "../index.js";
 export class SpatialManager {
   constructor() {
-
+    this.time = 0;
   }
 
   // assume objects have radius
@@ -23,10 +23,59 @@ export class SpatialManager {
   }
 
   // check for wall collision against ghost or pacman
+  // g.r.f. bounding box um sphere
+  isWallCollision(entity) {
+    // for all walls, check if colliding
+    // return -1 if no collision
+    // return 0 if x collision
+    // return 1 if y collision
+    for (let wall of entityManager.level.walls) {
+      let coll = this.isSphereWallCollision(entity, wall);
+      if (coll != -1) return coll;
+    }  
+  
+    return -1;
+  }
+
   isSphereWallCollision(entity, wall) {
-    const { leftX, rightX, upY, downY } = wall.getDims();
-    let x1 = entity.position.x;
-    let y1 = entity.position.y;
+    const { leftXwall, rightXwall, upYwall, downYwall } = wall.getDims();
     
+    // position and nextPosition
+    let x = entity.position.x;
+    let y = entity.position.y;
+    let nextX = entity.nextX;
+    let nextY = entity.nextY;
+    this.time+=1;
+    if (this.time % 10000 == 0) {
+      console.log(x, nextX);
+    }
+
+    // dims and nextDims
+    const leftXent = x - entity.radius;
+    const rightXent = x + entity.radius;
+    const upYent = y + entity.radius;
+    const downYent = y - entity.radius;
+    const nextleftXent = nextX - entity.radius;
+    const nextrightXent = nextX + entity.radius;
+    const nextupYent = nextY + entity.radius;
+    const nextdownYent = nextY - entity.radius;
+
+    // nextY á milli downYwall og upYwall
+    if (downYwall < nextY && nextY < upYwall) {
+      // left to right
+      // && right vinstra megin vid leftXwall en nextright hægra megin
+      if (rightXent < leftXwall && nextrightXent > leftXwall) {
+        return 0;
+      }      
+      // right to left
+    }
+    
+
+    // down to up
+
+    // up to down;
+    
+    
+    return -1;
   }
 }
