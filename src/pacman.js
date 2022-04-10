@@ -3,7 +3,7 @@ import {
   spatialManager,
   cameraTP,
 } from "../index.js";
-import { keys, KEY_W, KEY_A, KEY_S, KEY_D, KEY_I, KEY_P } from "./keys.js";
+import { keys, KEY_W, KEY_A, KEY_S, KEY_D, KEY_I, KEY_P, KEY_L } from "./keys.js";
 
 const killerModeDuration = 10; // seconds
 export class Pacman {
@@ -18,7 +18,8 @@ export class Pacman {
     this.radius = 9;
     this.defaultColor = "yellow";
     this.cooldownColor = "pink";
-    this.geometry = new THREE.SphereGeometry(this.radius, 100, 100, 0, 5.5);
+    // this.geometry = new THREE.SphereGeometry(this.radius, 100, 100, 0, 5.5);
+    this.geometry = new THREE.SphereGeometry(this.radius, 100, 100);
     this.material = new THREE.MeshPhongMaterial({
       color: this.defaultColor,
       specular: "#111111",
@@ -80,6 +81,9 @@ export class Pacman {
       console.log("i");
     }
     if (eatKey(KEY_P)) { // p pressed
+      console.log("p");
+    }
+    if (eatKey(KEY_L)) { // l pressed
       console.log("p");
     }
     
