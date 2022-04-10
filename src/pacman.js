@@ -42,7 +42,7 @@ export class Pacman {
     this.lives = 3;
     this.cooldown = false;
     this.cooldownTime = 5; // seconds
-    this.direction = 0;
+    this.direction = 0; // 0 stop,  1 ypos, 2 3 4
   }
 
   update() {
@@ -52,46 +52,38 @@ export class Pacman {
     const _R = controlObject.quaternion.clone();
 
     if (eatKey(KEY_W)) {
-      this.velX = 0;
-      this.velY = this.vel;
-
-      //this.shape.rotation.z = Math.PI / 2;
-      this.shape.quaternion.setFromAxisAngle(
-        new THREE.Vector3(0, 0, 1),
-        Math.PI / 2
-      );
+      if (this.direction <= 0) this.direction += 1; // virkar bara thegar pac er stop
+      
     }
+
     if (eatKey(KEY_A)) {
-      this.velX = -this.vel;
-      this.velY = 0;
+      this.direction -= 1;
+      if (this.direction === 0) this.direction = 4;
       //this.shape.rotation.z = Math.PI;
-      this.shape.quaternion.setFromAxisAngle(
-        new THREE.Vector3(0, 0, 1),
-        Math.PI
-      );
+      // this.shape.quaternion.setFromAxisAngle(
+      //   new THREE.Vector3(0, 0, 1),
+      //   Math.PI
+      // );
     }
     if (eatKey(KEY_S)) {
-      this.velX = 0;
-      this.velY = -this.vel;
-      //this.shape.rotation.z = 0;
-      this.shape.quaternion.setFromAxisAngle(
-        new THREE.Vector3(0, 0, 1),
-        (Math.PI * 3) / 2
-      );
+     this.direction = 0; // stop.. kannski beila a ad leifa...
     }
     if (eatKey(KEY_D)) {
-      this.velX = this.vel;
-      this.velY = 0;
+      this.direction += 1;
+      if (this.direction === 5) this.direction = 1;
+
       //this.shape.rotation.z = (Math.PI * 3) / 2;
-      this.shape.quaternion.setFromAxisAngle(
-        new THREE.Vector3(0, 0, 1),
-        2 * Math.PI
-      );
-      cameraTP.camera.quaternion.setFromAxisAngle(
-        new THREE.Vector3(1, 0, 0),
-        (Math.PI * 3) / 2
-      );
+      // this.shape.quaternion.setFromAxisAngle(
+      //   new THREE.Vector3(0, 0, 1),
+      //   2 * Math.PI
+      // );
+      // cameraTP.camera.quaternion.setFromAxisAngle(
+      //   new THREE.Vector3(1, 0, 0),
+      //   (Math.PI * 3) / 2
+      // );
     }
+
+    this.updateVelFromDirection();
 
     controlObject.quaternion.clone(_R); // her ef vid viljum smooth seinna
 
@@ -104,6 +96,57 @@ export class Pacman {
     this.shape.updateMatrix();
 
     cameraTP.update();
+  }
+
+  updateVelFromDirection() {
+    console.log(this.direction)
+    switch(this.direction) {
+      case 1: // pos y
+        this.velX = 0;
+        this.velY = this.vel;
+
+        this.shape.rotation.z = Math.PI / 2;
+        this.shape.quaternion.setFromAxisAngle(
+          new THREE.Vector3(0, 0, 1),
+          Math.PI / 2
+        );
+        break;
+      case 2: // pos x
+        this.velX = this.vel;
+        this.velY = 0;
+        //this.shape.rotation.z = (Math.PI * 3) / 2;
+        // this.shape.quaternion.setFromAxisAngle(
+        //   new THREE.Vector3(0, 0, 1),
+        //   2 * Math.PI
+        // );
+        // cameraTP.camera.quaternion.setFromAxisAngle(
+        //   new THREE.Vector3(1, 0, 0),
+        //   (Math.PI * 3) / 2
+        // );
+        break;
+      case 3: // neg y
+        this.velX = 0;
+        this.velY = -this.vel;
+        //this.shape.rotation.z = 0;
+        // this.shape.quaternion.setFromAxisAngle(
+        //   new THREE.Vector3(0, 0, 1),
+        //   (Math.PI * 3) / 2
+        // );
+        break;
+      case 4: // neg x
+        this.velX = -this.vel;
+        this.velY = 0;
+        //this.shape.rotation.z = Math.PI;
+        // this.shape.quaternion.setFromAxisAngle(
+        //   new THREE.Vector3(0, 0, 1),
+        //   Math.PI
+        // );
+        break;
+      default:
+        this.velX = 0;
+        this.velY = 0;
+
+    }
   }
 
   collide() {
