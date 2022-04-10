@@ -92,9 +92,6 @@ export class Pacman {
     this.shape.position.copy(this.position);
     this.shape.updateMatrix();
 
-    console.log(cameraTP._target.quaternion);
-    console.log(this.shape.quaternion);
-
     cameraTP.update();
   }
 
